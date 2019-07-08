@@ -19,11 +19,13 @@ def gateway():
 
     try:
         module = importlib.import_module(arguments["file"])
+        requested_function = getattr(module, arguments["function"])
     except ModuleNotFoundError:
-        return jsonify("ModuleNotFoundError")
+        return information("file not found")
+    except AttributeError:
+        return information("function not found within file")
 
     modified_arguments = {k: v for (k, v) in arguments.items() if k not in ["file", "function"]}
-    requested_function = getattr(module, arguments["function"])
     output["return"]   = requested_function(**modified_arguments)
     return jsonify(output)
 
