@@ -5,10 +5,14 @@ import importlib
 @app.route("/")
 def gateway():
     arguments = request.args
+    output    = {"information": [],
+                 "return":      {}}
     if 'file' not in arguments:
-        return jsonify("No file passed")
+        output["information"].append("No file passed")
+        return jsonify(ouput)
     if 'function' not in arguments:
-        return jsonify("No function passed")
+        output["information"].append("No function passed")
+        return jsonify(ouput)
 
     module = importlib.import_module(arguments["file"])
 
