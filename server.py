@@ -9,10 +9,10 @@ def gateway():
                  "return":      {}}
     if 'file' not in arguments:
         output["information"].append("No file passed")
-        return jsonify(ouput)
+        return jsonify(output)
     if 'function' not in arguments:
         output["information"].append("No function passed")
-        return jsonify(ouput)
+        return jsonify(output)
 
     module = importlib.import_module(arguments["file"])
 
