@@ -7,17 +7,25 @@ def gateway():
     arguments = request.args
     output    = {"information": [],
                  "return":      {}}
-    if 'file' not in arguments:
-        output["information"].append("No file passed")
-        return jsonify(output)
-    if 'function' not in arguments:
-        output["information"].append("No function passed")
+
+    def information(error):
+        output["information"].append(error)
         return jsonify(output)
 
-    module = importlib.import_module(arguments["file"])
+    if 'file' not in arguments:
+        return information("No file passed")
+    if 'function' not in arguments:
+        return information("No function passed")
+
+    try:
+        module = importlib.import_module(arguments["file"])
+    except ModuleNotFoundError:
+        return jsonify("ModuleNotFoundError")
 
     modified_arguments = {k: v for (k, v) in arguments.items() if k not in ["file", "function"]}
-    return jsonify(getattr(module, arguments["function"])(**modified_arguments))
+    requested_function = getattr(module, arguments["function"])
+    output["return"]   = requested_function(**modified_arguments)
+    return jsonify(output)
 
 if __name__ == "__main__":
     app.run(debug=True)
