@@ -33,11 +33,11 @@ def _modify_arguments(arguments):
     def parse_argument(kv):
         key, value = kv
         try:
-            return(key, int(value))
+            return key, int(value)
         except ValueError:
             pass
         try:
-            return(key, float(value))
+            return key, float(value)
         except ValueError:
             pass
         if key in ["file", "function"]:
@@ -45,7 +45,7 @@ def _modify_arguments(arguments):
         return kv
 
     return dict(
-           filter(None,
+           filter(lambda x: x is not None,
            map(parse_argument,
            arguments.items())))
 
