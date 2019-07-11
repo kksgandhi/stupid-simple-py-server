@@ -52,6 +52,10 @@ def _modify_arguments(arguments):
             return key, float(value)
         except ValueError:
             pass
+        if value.lower() == "true":
+            return key, True
+        if value.lower() == "false":
+            return key, False
         if key in ["file", "function"]:
             return None
         return kv
