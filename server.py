@@ -10,8 +10,8 @@ def gateway():
     output    = {"information": [],
                  "return":      {}}
 
-    def information(error):
-        output["information"].append(error)
+    def information(*info):
+        output["information"] += info
         return jsonify(output)
 
     if 'file' not in arguments:
@@ -28,7 +28,11 @@ def gateway():
         return information("function not found within file")
 
     modified_arguments = _modify_arguments(arguments)
-    output["return"]   = requested_function(**modified_arguments)
+    try:
+        output["return"]   = requested_function(**modified_arguments)
+    except:
+        import traceback
+        return information(traceback.format_exc().split('\n'))
     return jsonify(output)
 
 def _modify_arguments(arguments):
