@@ -4,6 +4,8 @@ app = Flask(__name__)
 CORS(app)
 import importlib
 
+modules = {}
+
 @app.route("/")
 def gateway():
     arguments = request.args
@@ -20,8 +22,12 @@ def gateway():
         return information("No function passed")
 
     try:
-        module = importlib.import_module(arguments["file"])
-        requested_function = getattr(module, arguments["function"])
+        file_name = arguments["file"]
+        if file_name not in modules:
+            modules[file_name] = importlib.import_module(file_name)
+        else:
+            importlib.reload(modules[file_name])
+        requested_function = getattr(modules[file_name], arguments["function"])
     except ModuleNotFoundError:
         return information("file not found")
     except AttributeError:
@@ -56,4 +62,4 @@ def _modify_arguments(arguments):
            arguments.items())))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
