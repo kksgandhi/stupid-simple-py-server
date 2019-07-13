@@ -1,8 +1,10 @@
+import importlib
+import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+
 app = Flask(__name__)
 CORS(app)
-import importlib
 
 modules = {}
 
@@ -44,21 +46,9 @@ def gateway():
 def _modify_arguments(arguments):
     def parse_argument(kv):
         key, value = kv
-        try:
-            return key, int(value)
-        except ValueError:
-            pass
-        try:
-            return key, float(value)
-        except ValueError:
-            pass
-        if value.lower() == "true":
-            return key, True
-        if value.lower() == "false":
-            return key, False
         if key in ["file", "function"]:
             return None
-        return kv
+        return (key, json.loads(value))
 
     return dict(
            filter(lambda x: x is not None,
