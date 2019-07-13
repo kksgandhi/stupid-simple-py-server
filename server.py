@@ -35,7 +35,9 @@ def gateway():
     except AttributeError:
         return information("function not found within file")
 
-    modified_arguments = _modify_arguments(arguments)
+    modified_arguments = {key: json.loads(value) 
+                          for key, value in arguments.items()
+                          if key not in ['file', 'function']}
     try:
         output["return"]   = requested_function(**modified_arguments)
     except:
@@ -44,6 +46,9 @@ def gateway():
     return jsonify(output)
 
 def _modify_arguments(arguments):
+    return dict(
+           map(lambda key, value: (key, json.loads(value)),
+           {k: v}))
     def parse_argument(kv):
         key, value = kv
         if key in ["file", "function"]:
