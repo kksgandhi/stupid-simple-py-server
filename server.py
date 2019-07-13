@@ -43,22 +43,10 @@ def gateway():
     except:
         import traceback
         return information(traceback.format_exc().split('\n'))
-    return jsonify(output)
-
-def _modify_arguments(arguments):
-    return dict(
-           map(lambda key, value: (key, json.loads(value)),
-           {k: v}))
-    def parse_argument(kv):
-        key, value = kv
-        if key in ["file", "function"]:
-            return None
-        return (key, json.loads(value))
-
-    return dict(
-           filter(lambda x: x is not None,
-           map(parse_argument,
-           arguments.items())))
+    try:
+        return jsonify(output)
+    except TypeError:
+        return information("Your return value was unable to be converted to json")
 
 if __name__ == "__main__":
     app.run(debug=False)
