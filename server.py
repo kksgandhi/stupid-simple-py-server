@@ -49,6 +49,7 @@ def gateway():
     try:
         return jsonify(output)
     except TypeError:
+        output["return"] = {}
         return information("Your return value was unable to be converted to json")
 
 if __name__ == "__main__":
