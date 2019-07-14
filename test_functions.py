@@ -12,3 +12,6 @@ def add_to_array(num, array):
 
 def type_of(arg):
     return str(type(arg))
+
+def un_jsonible(arg):
+    return type(arg)
