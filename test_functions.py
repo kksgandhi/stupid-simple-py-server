@@ -9,3 +9,6 @@ def error(**kwargs):
 
 def add_to_array(num, array):
     return list(map(lambda x: x + num, array))
+
+def type_of(arg):
+    return str(type(arg))
