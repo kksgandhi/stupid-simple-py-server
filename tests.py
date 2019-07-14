@@ -21,5 +21,10 @@ try:
                                      'function': 'type_of',
                                      'arg': '\"ababa\"'}).json())
     assert output["return"] == "<class \'str\'>"
+
+    output = (requests.get(url, params={'file': 'test_functions',
+                                     'function': 'un_jsonible',
+                                     'arg': '\"ababa\"'}).json())
+    assert len(output["information"]) > 0
 except AssertionError:
     print(output)
