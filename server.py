@@ -35,11 +35,14 @@ def gateway():
     except AttributeError:
         return information("function not found within file")
 
-    modified_arguments = {key: json.loads(value) 
-                          for key, value in arguments.items()
-                          if key not in ['file', 'function']}
     try:
-        output["return"]   = requested_function(**modified_arguments)
+        modified_arguments = ({key: json.loads(value) 
+                              for key, value in arguments.items()
+                              if key not in ['file', 'function']})
+    except json.decoder.JSONDecodeError:
+        return information("An argument could not be converted to json.")
+    try:
+        output["return"] = requested_function(**modified_arguments)
     except:
         import traceback
         return information(traceback.format_exc().split('\n'))
