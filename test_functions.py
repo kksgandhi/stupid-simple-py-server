@@ -16,3 +16,6 @@ def type_of(arg):
 
 def un_jsonible(arg):
     return type(arg)
+
+def identity(**kwargs):
+    return kwargs
