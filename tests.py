@@ -7,31 +7,31 @@ verbose = True
 
 try:
     output = (requests.get(url, params={'file': 'test_functions',
-                                     'function': 'add',
-                                     'a': 5,
-                                     'b': 15}).json())
+                                        'function': 'add',
+                                        'a': 5,
+                                        'b': 15}).json())
     if verbose:
         print(output)
     assert output["return"] == 20
 
     output = (requests.get(url, params={'file': 'test_functions',
-                                     'function': 'add',
-                                     'a': '\"5\"',
-                                     'b': '\"15\"'}).json())
+                                        'function': 'add',
+                                        'a': '\"5\"',
+                                        'b': '\"15\"'}).json())
     if verbose:
         print(output)
     assert output["return"] == "515"
 
     output = (requests.get(url, params={'file': 'test_functions',
-                                     'function': 'type_of',
-                                     'arg': '\"ababa\"'}).json())
+                                        'function': 'type_of',
+                                        'arg': '\"ababa\"'}).json())
     if verbose:
         print(output)
     assert output["return"] == "<class \'str\'>"
 
     output = (requests.get(url, params={'file': 'test_functions',
-                                     'function': 'un_jsonible',
-                                     'arg': '\"ababa\"'}).json())
+                                        'function': 'un_jsonible',
+                                        'arg': '\"ababa\"'}).json())
     if verbose:
         print(output)
     assert len(output["information"]) > 0 and len(output["return"]) == 0
