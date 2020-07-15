@@ -9,7 +9,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-modules = {}
+module_cache = {}
+function_cache = {}
 
 @app.route("/", methods=["GET", "POST"])
 def gateway():
@@ -32,12 +33,20 @@ def gateway():
         return information("No function passed")
 
     try:
-        file_name = arguments["file"]
+        module   = arguments["file"]
+        function = arguments["function"]
         # we want to import the file if we don't have it cached
-        if file_name not in modules:
-            modules[file_name] = importlib.import_module(file_name)
+        if module not in module_cache:
+            module_cache[module]   = importlib.import_module(module)
+            function_cache[module] = {}
         # get the function from the file
-        requested_function = getattr(modules[file_name], arguments["function"])
+        # adding it to the cache if it isn't there
+        # getting from the cache if it is
+        if function not in function_cache[module]:
+            requested_function = getattr(module_cache[module], function)
+            function_cache[module][function] = requested_function
+        else:
+            requested_function = function_cache[module][function]
     except ModuleNotFoundError:
         return information("file not found")
     except AttributeError:
