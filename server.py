@@ -27,6 +27,15 @@ def gateway():
         output["information"] += info
         return jsonify(output)
 
+    # reload the requested module by deleting it from the cache
+    if 'reload' in arguments:
+        module_to_reload = arguments["reload"]
+        if module_to_reload not in module_cache:
+            return information("Module wasn't imported in the first place")
+        else:
+            del module_cache[module_to_reload]
+            return information("Module reloaded successfully")
+
     if 'file' not in arguments:
         return information("No file passed")
     if 'function' not in arguments:
