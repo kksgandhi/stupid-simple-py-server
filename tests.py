@@ -34,6 +34,12 @@ try:
                                      'arg': '\"ababa\"'}).json())
     if verbose:
         print(output)
-    assert len(output["information"]) > 0
+    assert len(output["information"]) > 0 and len(output["return"]) == 0
+
+    output = (requests.get(url, params={'file': 'test_functions',
+                                        'function': 'error'}).json())
+    if verbose:
+        print(output)
+    assert len(output["information"]) > 0 and len(output["return"]) == 0
 except AssertionError:
     print(output)
