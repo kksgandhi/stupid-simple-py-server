@@ -8,9 +8,9 @@ CORS(app)
 
 modules = {}
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def gateway():
-    arguments = request.args
+    arguments = request.json
     output    = {"information": [],
                  "return":      {}}
 
@@ -36,7 +36,7 @@ def gateway():
         return information("function not found within file")
 
     try:
-        modified_arguments = ({key: json.loads(value) 
+        modified_arguments = ({key: value
                               for key, value in arguments.items()
                               if key not in ['file', 'function']})
     except json.decoder.JSONDecodeError:

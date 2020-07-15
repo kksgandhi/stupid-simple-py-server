@@ -8,6 +8,7 @@ def error(**kwargs):
     return 1/0
 
 def add_to_array(num, array):
+    print(num, array)
     return list(map(lambda x: x + num, array))
 
 def type_of(arg):

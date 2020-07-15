@@ -3,10 +3,10 @@ from pprint import pprint as print
 
 url     = 'http://127.0.0.1:5000/'
 output  = {}
-verbose = True
+verbose = False
 
 try:
-    output = (requests.get(url, params={'file': 'test_functions',
+    output = (requests.get(url, json={'file': 'test_functions',
                                         'function': 'add',
                                         'a': 5,
                                         'b': 15}).json())
@@ -14,32 +14,42 @@ try:
         print(output)
     assert output["return"] == 20
 
-    output = (requests.get(url, params={'file': 'test_functions',
+    output = (requests.get(url, json={'file': 'test_functions',
                                         'function': 'add',
-                                        'a': '\"5\"',
-                                        'b': '\"15\"'}).json())
+                                        'a': "5",
+                                        'b': "15"}).json())
     if verbose:
         print(output)
     assert output["return"] == "515"
 
-    output = (requests.get(url, params={'file': 'test_functions',
+    output = (requests.get(url, json={'file': 'test_functions',
                                         'function': 'type_of',
-                                        'arg': '\"ababa\"'}).json())
+                                        'arg': "ababa"}).json())
     if verbose:
         print(output)
     assert output["return"] == "<class \'str\'>"
 
-    output = (requests.get(url, params={'file': 'test_functions',
+    output = (requests.get(url, json={'file': 'test_functions',
                                         'function': 'un_jsonible',
-                                        'arg': '\"ababa\"'}).json())
+                                        'arg': "ababa"}).json())
     if verbose:
         print(output)
     assert len(output["information"]) > 0 and len(output["return"]) == 0
 
-    output = (requests.get(url, params={'file': 'test_functions',
+    output = (requests.get(url, json={'file': 'test_functions',
                                         'function': 'error'}).json())
     if verbose:
         print(output)
     assert len(output["information"]) > 0 and len(output["return"]) == 0
+
+    output = (requests.get(url, json={'file': 'test_functions',
+                                      'function': 'add_to_array',
+                                      'num': 7,
+                                      'array': [-1, 2, 3]}).json())
+    if verbose:
+        print(output)
+    assert output["return"] == [6, 9, 10]
+
+    print("=== ALL TESTS PASSED ===")
 except AssertionError:
     print(output)
