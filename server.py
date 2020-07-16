@@ -19,12 +19,12 @@ def gateway():
     """
     arguments = request.json
     # set up an output variable that we can later return
-    output    = {"information": [],
+    output    = {"information": "",
                  "return":      {}}
 
     # quickly add information to the output
-    def information(*info):
-        output["information"] += info
+    def information(info):
+        output["information"] = info
         return jsonify(output)
 
     # reload the requested module by deleting it from the cache
@@ -71,7 +71,7 @@ def gateway():
     except:
         # if there was any sort of error, return it
         import traceback
-        return information(traceback.format_exc().split('\n'))
+        return information(traceback.format_exc())
     try:
         return jsonify(output)
     except TypeError:
