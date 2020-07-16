@@ -2,6 +2,8 @@
 
 This is a simple web server that allows you to prototype running Python code from any other major coding language.
 
+To use some buzzwords: This is a generic python microservice webserver using Flask
+
 If you have a program in something like C++, you can't just call python functions simply. You need libraries and a ton of specific code. [Here's documentation from the python website](https://docs.python.org/2/extending/embedding.html). While this is the best option in the long term, if you just need something quick and dirty, this is where this webserver comes in.
 
 Simply install the requirements (pip3 -r requirements.txt) and run server.py just like any other python file (python3 server.py).
