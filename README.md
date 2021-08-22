@@ -1,5 +1,7 @@
 # stupid-simple-py-server
 
+**NOTE:** This project currently has vulnerabilities. I'll look into it, but for now be wary when using this project. I do accept pull requests if you have a fix.
+
 This is a simple web server that allows you to prototype running Python code from any other major coding language.
 
 To use some buzzwords: This is a generic python microservice webserver using Flask
